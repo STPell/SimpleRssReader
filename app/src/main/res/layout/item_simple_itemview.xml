@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_margin="8dp">
+
+    <TextView
+            android:id="@+id/simple_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="This is some temp text. Reallllly looonng temporary text!"
+            android:layout_gravity="center|left"
+            android:paddingRight="36dp" />
+    <Button
+            android:text=">"
+            android:layout_width="31dp"
+            android:layout_height="match_parent"
+            android:id="@+id/button"
+            android:layout_gravity="top|right"
+            android:background="@android:color/transparent"/>
+
+</FrameLayout>

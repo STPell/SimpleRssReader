@@ -1,0 +1,31 @@
+package com.example.hellodroid;
+
+public enum RssDocumentContext {
+    NONE,
+    CHANNEL,
+    TITLE,
+    ITEM,
+    LINK,
+    GUID,
+    DESCRIPTION,
+    LANGUAGE,
+    COPYRIGHT,
+    MANAGINGEDITOR,
+    WEBMASTER,
+    PUBDATE,
+    LASTBUILDDATE,
+    CATEGORY,
+    GENERATOR,
+    DOCS,
+    CLOUD,
+    TTL,
+    IMAGE,
+    RATING,
+    TEXTINPUT,
+    SKIPHOURS,
+    SKIPDAYS,
+    AUTHOR,
+    COMMENT,
+    ENCLOSURE,
+    SOURCE
+}

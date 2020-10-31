@@ -1,5 +1,6 @@
 package com.example.hellodroid;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +19,7 @@ public class RssChannelViewHolder extends RecyclerView.ViewHolder implements Vie
      */
     public RssChannelViewHolder(final View itemView, RecyclerChannelViewClickListener listener) {
         super(itemView);
-        simpleTextView = (TextView) itemView.findViewById(R.id.simple_text);
+        simpleTextView = (TextView) itemView.findViewById(R.id.simple_title);
 
         mListener = listener;
         itemView.setOnClickListener(this);
@@ -32,6 +33,7 @@ public class RssChannelViewHolder extends RecyclerView.ViewHolder implements Vie
      */
     public void bindData(final RssChannelViewModel viewModel) {
         simpleTextView.setText(viewModel.getSimpleText());
+        simpleTextView.setTextColor(Color.rgb(0,0,0));
         model = viewModel;
     }
 

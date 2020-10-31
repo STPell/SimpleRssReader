@@ -35,7 +35,7 @@ public class ChannelFeed extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        RecyclerView information = (RecyclerView) findViewById(R.id.testRecycler);
+        RecyclerView information = (RecyclerView) findViewById(R.id.channelTestRecycler);
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(this);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(information.getContext(),
                 DividerItemDecoration.VERTICAL);

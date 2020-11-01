@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChannelFeed extends AppCompatActivity {
-    RssChannel channel;
-    List<RssItemViewModel> objectList = new ArrayList<RssItemViewModel>();
-    RssItemAdapter adapter;
+    private RssChannel channel;
+    private List<RssItemViewModel> objectList = new ArrayList<RssItemViewModel>();
+    private RssItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

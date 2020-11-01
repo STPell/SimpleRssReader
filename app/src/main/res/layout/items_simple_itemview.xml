@@ -9,7 +9,7 @@
     <TextView
             android:id="@+id/simple_title"
             android:layout_width="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/button"
             android:layout_height="wrap_content"
             tools:text="Title"

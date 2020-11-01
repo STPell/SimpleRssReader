@@ -1,10 +1,12 @@
 package com.example.hellodroid;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
@@ -20,8 +22,15 @@ public class ImageGetter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(String source) {
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
         BitmapDrawablePlaceHolder drawable = new BitmapDrawablePlaceHolder();
-        Picasso.get().load(source).placeholder(R.drawable.ic_launcher_background).into(drawable);
+        Picasso.get()
+               .load(source)
+               .placeholder(R.drawable.ic_launcher_background)
+               .resize((int) Math.round(metrics.widthPixels - (metrics.xdpi * (6.0 / 25.4))), metrics.heightPixels)
+               .centerInside()
+               .onlyScaleDown()
+               .into(drawable);
         return drawable;
     }
 

@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //Create a universal request queue
+        RssHttpRequestQueue.getInstance(this.getApplicationContext());
+
         objectList = generateSimpleList();
         RecyclerChannelViewClickListener listener = (view, position, model) -> {
             Intent intent = new Intent(MainActivity.this, ChannelFeed.class);
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         urlList.add("https://www.questionablecontent.net/QCRSS.xml");
         urlList.add("https://www.dumbingofage.com/feed/");
 
-        parserThread = new RSSFeedParser(urlList, getCacheDir(), objectList, adapter);
+        parserThread = new RSSFeedParser(urlList, objectList, adapter);
 
         RecyclerView information = (RecyclerView) findViewById(R.id.testRecycler);
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(this);

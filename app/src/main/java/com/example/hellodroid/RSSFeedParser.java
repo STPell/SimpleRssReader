@@ -41,28 +41,13 @@ public class RSSFeedParser extends Thread {
     private List<RssChannel> feedChannels = new ArrayList<RssChannel>();
     private ReentrantLock feedChannelsLock = new ReentrantLock();
 
-    private RequestQueue requestQueue;
-
-    // Instantiate the cache
-    private DiskBasedCache cache;
-
-    // Set up the network to use HttpURLConnection as the HTTP client.
-    private BasicNetwork network;
-
     List<RssChannelViewModel> displayList;
     RssChannelAdapter displayAdapter;
 
-    RSSFeedParser(List<String> url_, File cacheDir, List<RssChannelViewModel> displayList_, RssChannelAdapter adapter) {
+    RSSFeedParser(List<String> url_, List<RssChannelViewModel> displayList_, RssChannelAdapter adapter) {
         urlList = url_;
         displayList = displayList_;
         displayAdapter = adapter;
-
-        cache = new DiskBasedCache(cacheDir, 1024 * 1024); // 1MB cap
-        network = new BasicNetwork(new HurlStack());
-
-        // Instantiate the RequestQueue with the cache and network.
-        requestQueue = new RequestQueue(cache, network);
-        requestQueue.start();
     }
 
     @Override
@@ -85,7 +70,7 @@ public class RSSFeedParser extends Thread {
                         Log.e("EXCEPTION", error.toString());
                     }
                 });
-                requestQueue.add(newRequest);
+                RssHttpRequestQueue.getInstance().addToRequestQueue(newRequest);
             } catch (Exception e) {
                 Log.e("EXCEPTION", e.toString());
             }

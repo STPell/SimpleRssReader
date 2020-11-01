@@ -1,12 +1,15 @@
 package com.example.hellodroid;
 
+import android.graphics.Color;
+import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RssItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private final RecyclerItemViewClickListener mListener;
-    private TextView simpleTextView;
+    private TextView simpleTitleView;
+    private TextView simpleDescriptionView;
     private RssItemViewModel model;
 
     /**
@@ -18,7 +21,8 @@ public class RssItemViewHolder extends RecyclerView.ViewHolder implements View.O
      */
     public RssItemViewHolder(final View itemView, RecyclerItemViewClickListener listener) {
         super(itemView);
-        simpleTextView = (TextView) itemView.findViewById(R.id.simple_text);
+        simpleTitleView = (TextView) itemView.findViewById(R.id.simple_title);
+        simpleDescriptionView = (TextView) itemView.findViewById(R.id.simple_description);
 
         mListener = listener;
         itemView.setOnClickListener(this);
@@ -31,7 +35,10 @@ public class RssItemViewHolder extends RecyclerView.ViewHolder implements View.O
      *         The viewmodel that contains the data
      */
     public void bindData(final RssItemViewModel viewModel) {
-        simpleTextView.setText(viewModel.getSimpleText());
+        simpleTitleView.setText(viewModel.getTitleText());
+        simpleTitleView.setTextColor(Color.rgb(0,0,0));
+        simpleDescriptionView.setText(Html.fromHtml(viewModel.getShortDescription(), Html.FROM_HTML_MODE_COMPACT, null, null));
+        //simpleDescriptionView.setText(viewModel.getShortDescription());
         model = viewModel;
     }
 

@@ -79,7 +79,7 @@ public class RssItemAdapter extends RecyclerView.Adapter {
      */
     @Override
     public int getItemViewType(final int position) {
-        return R.layout.item_simple_itemview;
+        return R.layout.items_simple_itemview;
     }
 
     public void addItem(RssItemViewModel item) {

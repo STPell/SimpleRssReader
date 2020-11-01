@@ -15,7 +15,7 @@ public class RssItemViewModel {
      * @param feedItem
      */
     public RssItemViewModel(@NonNull final String simpleText, RssItem feedItem) {
-        setSimpleText(simpleText);
+        //setSimpleText(simpleText);
         item = feedItem;
     }
 
@@ -44,4 +44,36 @@ public class RssItemViewModel {
     public RssItem getItem() {
         return item;
     }
+
+    public String getTitleText() {
+        return item.getTitle();
+    }
+
+    public String getShortDescription() {
+        String description = item.getDescription();
+
+        if (description != null) {
+            //Remove all images from the description as it won't render properly in the small view
+            description = description.replaceAll("(<(/)img>)|(<img.+?>)", "");
+
+            //Short description should split on newline
+            int newLineLoc = description.indexOf("\r");
+            if (newLineLoc < 0) {
+                newLineLoc = description.indexOf("\n");
+            }
+            if (newLineLoc > 0) {
+                description = description.substring(0);
+            }
+
+            //Limit it to a max of 57 characters.
+            if (description.length() > 57) {
+                description = description.substring(0, 54).concat("...");
+            }
+
+            return description;
+        } else {
+            return "";
+        }
+    }
+
 }

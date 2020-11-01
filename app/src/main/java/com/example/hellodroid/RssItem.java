@@ -115,4 +115,12 @@ public class RssItem implements Serializable {
             return "";
         }
     }
+
+    public String getDescription() {
+        if (description != null) {
+            return description;
+        } else {
+            return "";
+        }
+    }
 }

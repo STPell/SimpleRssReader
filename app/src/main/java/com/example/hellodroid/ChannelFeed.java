@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChannelFeed extends AppCompatActivity {
+    public static final String ITEM_MESSAGE = "com.example.hellodroid.ITEM";
+
     private RssChannel channel;
     private List<RssItemViewModel> objectList = new ArrayList<RssItemViewModel>();
     private RssItemAdapter adapter;
@@ -25,7 +27,9 @@ public class ChannelFeed extends AppCompatActivity {
         channel = (RssChannel) getIntent().getSerializableExtra(MainActivity.CHANNEL_MESSAGE);
 
         RecyclerItemViewClickListener listener = (view, position, model) -> {
-            Log.w("CLICKED", "Clicked entry " + position + " (" + model.getItem().getTitle() + ")");
+            Intent intent = new Intent(ChannelFeed.this, ItemViewer.class);
+            intent.putExtra(ITEM_MESSAGE, model.getItem());
+            startActivity(intent);
         };
 
         adapter = new RssItemAdapter(objectList, listener);

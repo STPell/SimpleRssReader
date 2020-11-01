@@ -11,12 +11,15 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".ItemViewer">
+        </activity>
         <activity
                 android:name=".ChannelFeed"
                 android:label="@string/title_activity_channel_feed"
                 android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".MainActivity" />
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".MainActivity"/>
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>

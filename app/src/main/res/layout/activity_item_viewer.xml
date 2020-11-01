@@ -19,13 +19,14 @@
     <TextView android:layout_width="match_parent"
               android:id="@+id/itemViewText"
               app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintStart_toStartOf="@+id/toolbar"
               app:layout_constraintBottom_toBottomOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/toolbar"
               android:layout_height="match_parent"
               android:layout_marginTop="?attr/actionBarSize"
               android:scrollbars = "vertical"
-              android:layout_margin="3mm"/>
+              android:layout_marginLeft="3mm"
+              android:layout_marginRight="3mm"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

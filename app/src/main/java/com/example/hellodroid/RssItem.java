@@ -123,4 +123,12 @@ public class RssItem implements Serializable {
             return "";
         }
     }
+
+    public Boolean hasUrl() {
+        return link != null;
+    }
+
+    public String getUrl() {
+        return link;
+    }
 }

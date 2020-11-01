@@ -2,6 +2,7 @@ package com.example.hellodroid;
 
 import android.graphics.Color;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,6 +102,7 @@ public class ItemViewer extends AppCompatActivity {
         text.setTextColor(Color.BLACK);
         ImageGetter imageGetter = new ImageGetter(text);
         text.setText(Html.fromHtml(item.getDescription(), 0, imageGetter, null));
+        text.setMovementMethod(new ScrollingMovementMethod());
     }
 
 }

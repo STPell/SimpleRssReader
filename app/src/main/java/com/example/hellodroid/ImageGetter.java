@@ -1,5 +1,6 @@
 package com.example.hellodroid;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,15 +16,17 @@ import com.squareup.picasso.Target;
 public class ImageGetter implements Html.ImageGetter {
 
     private TextView textView = null;
+    private Context ctx_;
 
-    public ImageGetter(TextView target) {
+    public ImageGetter(TextView target, Context ctx) {
         textView = target;
+        ctx_ = ctx;
     }
 
     @Override
     public Drawable getDrawable(String source) {
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        BitmapDrawablePlaceHolder drawable = new BitmapDrawablePlaceHolder();
+        BitmapDrawablePlaceHolder drawable = new BitmapDrawablePlaceHolder(ctx_);
         Picasso.get()
                .load(source)
                .placeholder(R.drawable.ic_launcher_background)
@@ -37,6 +40,10 @@ public class ImageGetter implements Html.ImageGetter {
     private class BitmapDrawablePlaceHolder extends BitmapDrawable implements Target {
 
         protected Drawable drawable;
+
+        public BitmapDrawablePlaceHolder(Context ctx) {
+            super(ctx.getResources(), (Bitmap) null);
+        }
 
         @Override
         public void draw(final Canvas canvas) {

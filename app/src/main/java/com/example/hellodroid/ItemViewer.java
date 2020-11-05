@@ -100,7 +100,7 @@ public class ItemViewer extends AppCompatActivity {
 
         TextView text = (TextView) findViewById(R.id.itemViewText);
         text.setTextColor(Color.BLACK);
-        ImageGetter imageGetter = new ImageGetter(text);
+        ImageGetter imageGetter = new ImageGetter(text, getApplicationContext());
         text.setText(Html.fromHtml(item.getDescription(), 0, imageGetter, null));
         text.setMovementMethod(new ScrollingMovementMethod());
     }

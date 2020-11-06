@@ -60,10 +60,9 @@ public class MainActivity extends AppCompatActivity {
         information.setLayoutManager(layout_manager);
         information.setHasFixedSize(true);
         information.setAdapter(adapter);
-
     }
 
-    private void tapDroid(){
+    private void refreshList() {
         Log.w("SAM_INFO", "Starting new thread!");
         try {
             parserThread.run();
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             objectList.clear();
             adapter.notifyDataSetChanged();
 
-            tapDroid();
+            refreshList();
         }
 
         return super.onOptionsItemSelected(item);

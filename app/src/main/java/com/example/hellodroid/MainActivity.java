@@ -60,11 +60,15 @@ public class MainActivity extends AppCompatActivity {
         information.setLayoutManager(layout_manager);
         information.setHasFixedSize(true);
         information.setAdapter(adapter);
+
+        parserThread.setLocal(true);
+        parserThread.run();
     }
 
     private void refreshList() {
         Log.w("SAM_INFO", "Starting new thread!");
         try {
+            parserThread.setLocal(false);
             parserThread.run();
             Log.w("NUM_CHANNELS", "" + parserThread.getNumChannels());
         } catch (Exception e) {

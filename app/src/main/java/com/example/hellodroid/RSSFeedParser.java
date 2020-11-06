@@ -43,6 +43,7 @@ public class RSSFeedParser extends Thread {
 
     List<RssChannelViewModel> displayList;
     RssChannelAdapter displayAdapter;
+    private boolean local;
 
     RSSFeedParser(List<String> url_, List<RssChannelViewModel> displayList_, RssChannelAdapter adapter) {
         urlList = url_;
@@ -52,6 +53,18 @@ public class RSSFeedParser extends Thread {
 
     @Override
     public void run() {
+        if (local) {
+            parseFromLocalResources();
+        } else {
+            parseFromRemoteResources();
+        }
+    }
+
+    private void parseFromLocalResources() {
+        //Do nothing for now
+    }
+
+    private void parseFromRemoteResources() {
         for (String url: urlList) {
             try {
                 StringRequest newRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -164,6 +177,10 @@ public class RSSFeedParser extends Thread {
         displayList.add(e);
 
         displayAdapter.addItem(e);
+    }
+
+    public void setLocal(boolean b) {
+        local = b;
     }
 }
 

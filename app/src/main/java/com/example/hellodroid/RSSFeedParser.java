@@ -58,7 +58,7 @@ public class RSSFeedParser extends Thread {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            tapDroid(response);
+                            parseFeed(response);
                             addChannelToInfo();
                         } catch (Exception e) {
                             Log.e("EXCEPTION", e.toString());
@@ -77,7 +77,7 @@ public class RSSFeedParser extends Thread {
         }
     }
 
-    public void tapDroid(String response) throws ParserConfigurationException, IOException, SAXException {
+    public void parseFeed(String response) throws ParserConfigurationException, IOException, SAXException {
         StringReader reader = new StringReader(response);
         InputSource input = new InputSource(reader);
 

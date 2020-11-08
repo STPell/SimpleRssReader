@@ -63,7 +63,32 @@ public class RSSFeedParser extends Thread {
     }
 
     private void parseFromLocalResources() {
-        //Do nothing for now
+        String[] files = ctx.fileList();
+        if (ctx.fileList().length > 0) {
+            for (String fileName : files) {
+                if (fileName.contains("RSS-")) {
+                    //If it is a valid file RSS file, open it and parse it
+                    try (FileInputStream fis = ctx.openFileInput(fileName);) {
+                        InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
+                        StringBuilder stringBuilder = new StringBuilder();
+                        BufferedReader reader = new BufferedReader(inputStreamReader);
+
+                        String line = reader.readLine();
+                        while (line != null) {
+                            stringBuilder.append(line).append('\n');
+                            line = reader.readLine();
+                        }
+
+                        String contents = stringBuilder.toString();
+                        parseFeed(contents);
+                        addChannelToInfo();
+                    } catch (Exception e) {
+                        // Error occurred when opening raw file for reading.
+                        Log.e("EXCEPTION", e.toString());
+                    }
+                }
+            }
+        }
     }
 
     private void parseFromRemoteResources() {

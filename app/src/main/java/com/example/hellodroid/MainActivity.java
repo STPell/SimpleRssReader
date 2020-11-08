@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         urlList.add("https://www.dumbingofage.com/feed/");
         urlList.add("https://www.thirtythreeforty.net/posts/index.xml");
 
-        parserThread = new RSSFeedParser(urlList, objectList, adapter);
+        parserThread = new RSSFeedParser(urlList, objectList, adapter, getApplicationContext());
 
         RecyclerView information = (RecyclerView) findViewById(R.id.testRecycler);
         RecyclerView.LayoutManager layout_manager = new LinearLayoutManager(this);

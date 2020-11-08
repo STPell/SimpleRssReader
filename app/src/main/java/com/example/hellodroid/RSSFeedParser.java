@@ -1,5 +1,6 @@
 package com.example.hellodroid;
 
+import android.content.Context;
 import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,9 +20,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,11 +44,13 @@ public class RSSFeedParser extends Thread {
     List<RssChannelViewModel> displayList;
     RssChannelAdapter displayAdapter;
     private boolean local;
+    private Context ctx;
 
-    RSSFeedParser(List<String> url_, List<RssChannelViewModel> displayList_, RssChannelAdapter adapter) {
+    RSSFeedParser(List<String> url_, List<RssChannelViewModel> displayList_, RssChannelAdapter adapter, Context context) {
         urlList = url_;
         displayList = displayList_;
         displayAdapter = adapter;
+        ctx = context;
     }
 
     @Override
@@ -73,6 +75,7 @@ public class RSSFeedParser extends Thread {
                         try {
                             parseFeed(response);
                             addChannelToInfo();
+                            saveResponseToFile(response);
                         } catch (Exception e) {
                             Log.e("EXCEPTION", e.toString());
                         }
@@ -87,6 +90,21 @@ public class RSSFeedParser extends Thread {
             } catch (Exception e) {
                 Log.e("EXCEPTION", e.toString());
             }
+        }
+    }
+
+    private void saveResponseToFile(String response) {
+        String fileName;
+        feedChannelsLock.lock();
+        fileName = "RSS-" + feedChannels.get(feedChannels.size() - 1).getTitle() + ".xml";
+        feedChannelsLock.unlock();
+
+        fileName = fileName.replaceAll("[:*?\"<>|&/ ]", "_");
+
+        try (FileOutputStream fos = ctx.openFileOutput(fileName, Context.MODE_PRIVATE)) {
+            fos.write(response.getBytes());
+        } catch (Exception e) {
+            Log.e("EXCEPTION", e.toString());
         }
     }
 

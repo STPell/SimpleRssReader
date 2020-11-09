@@ -92,6 +92,8 @@ public class RSSFeedParser extends Thread {
     }
 
     private void parseFromRemoteResources() {
+        displayAdapter.clearItems();
+
         for (String url: urlList) {
             try {
                 StringRequest newRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {

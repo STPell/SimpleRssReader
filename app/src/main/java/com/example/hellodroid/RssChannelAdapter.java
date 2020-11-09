@@ -94,4 +94,9 @@ public class RssChannelAdapter extends RecyclerView.Adapter {
 
         this.notifyDataSetChanged();
     }
+
+    public void clearItems() {
+        models.clear();
+        this.notifyDataSetChanged();
+    }
 }

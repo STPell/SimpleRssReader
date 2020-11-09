@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class RssChannelAdapter extends RecyclerView.Adapter {
@@ -84,6 +85,13 @@ public class RssChannelAdapter extends RecyclerView.Adapter {
 
     public void addItem(RssChannelViewModel item) {
         models.add(item);
-        this.notifyItemInserted(models.size());
+        models.sort(new Comparator<RssChannelViewModel>() {
+            @Override
+            public int compare(RssChannelViewModel o1, RssChannelViewModel o2) {
+                return o1.getChannel().getTitle().compareTo(o2.getChannel().getTitle());
+            }
+        });
+
+        this.notifyDataSetChanged();
     }
 }

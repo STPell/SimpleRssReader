@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
         information.setLayoutManager(layout_manager);
         information.setHasFixedSize(true);
         information.setAdapter(adapter);
+
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                parserThread.setLocal(false);
+                parserThread.run();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         parserThread.setLocal(true);
         parserThread.run();

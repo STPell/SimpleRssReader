@@ -2,6 +2,7 @@ package com.example.hellodroid;
 
 import android.content.Context;
 import android.util.Log;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -45,6 +46,11 @@ public class RSSFeedParser extends Thread {
     RssChannelAdapter displayAdapter;
     private boolean local;
     private Context ctx;
+
+    //Refresh complete counter and object
+    private int counter;
+    private ReentrantLock counterLock = new ReentrantLock();
+    private SwipeRefreshLayout refresher;
 
     RSSFeedParser(List<String> url_, List<RssChannelViewModel> displayList_, RssChannelAdapter adapter, Context context) {
         urlList = url_;
@@ -92,7 +98,7 @@ public class RSSFeedParser extends Thread {
     }
 
     private void parseFromRemoteResources() {
-        //displayAdapter.clearItems();
+        counter = urlList.size();
 
         for (String url: urlList) {
             try {
@@ -103,6 +109,15 @@ public class RSSFeedParser extends Thread {
                             parseFeed(response);
                             addChannelToInfo();
                             saveResponseToFile(response);
+
+                            //If we're the last thing to be parsed we should stop
+                            //the refreshing icon.
+                            counterLock.lock();
+                            counter--;
+                            if (counter == 0 && refresher != null) {
+                                refresher.setRefreshing(false);
+                            }
+                            counterLock.unlock();
                         } catch (Exception e) {
                             Log.e("EXCEPTION", e.toString());
                         }
@@ -226,6 +241,10 @@ public class RSSFeedParser extends Thread {
 
     public void setLocal(boolean b) {
         local = b;
+    }
+
+    public void setRefresher(SwipeRefreshLayout swipeRefreshLayout) {
+        refresher = swipeRefreshLayout;
     }
 }
 

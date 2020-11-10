@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 parserThread.setLocal(false);
+                parserThread.setRefresher(swipeRefreshLayout);
                 parserThread.run();
-                swipeRefreshLayout.setRefreshing(false);
             }
         });
 

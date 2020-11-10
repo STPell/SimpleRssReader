@@ -57,7 +57,7 @@ public class RssChannel implements Serializable {
     }
 
     public void addChannelInfo(RssDocumentContext field, Element e) {
-        Log.w("RSSChannelInfo", field.toString() + " " + e.getTextContent());
+        //Log.w("RSSChannelInfo", field.toString() + " " + e.getTextContent());
         switch (field) {
             case CLOUD:
                 cloud = e.getTextContent();

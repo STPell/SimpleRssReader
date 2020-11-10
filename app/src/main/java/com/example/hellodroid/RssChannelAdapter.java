@@ -84,6 +84,13 @@ public class RssChannelAdapter extends RecyclerView.Adapter {
     }
 
     public void addItem(RssChannelViewModel item) {
+        for (int i = 0; i < models.size(); i++) {
+            if (item.getChannel().getTitle().equals(models.get(i).getChannel().getTitle())) {
+                models.set(i, item);
+                return;
+            }
+        }
+
         models.add(item);
         models.sort(new Comparator<RssChannelViewModel>() {
             @Override

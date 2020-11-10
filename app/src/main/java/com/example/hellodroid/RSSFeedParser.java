@@ -92,7 +92,7 @@ public class RSSFeedParser extends Thread {
     }
 
     private void parseFromRemoteResources() {
-        displayAdapter.clearItems();
+        //displayAdapter.clearItems();
 
         for (String url: urlList) {
             try {

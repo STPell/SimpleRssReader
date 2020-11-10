@@ -9,4 +9,9 @@
           android:title="Refresh"
           android:icon="@android:drawable/ic_popup_sync"
           app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_addfeed"
+          android:title="Add Feed"
+          android:icon="@android:drawable/ic_menu_add"
+          app:showAsAction="ifRoom"/>
 </menu>

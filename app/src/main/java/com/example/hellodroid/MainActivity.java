@@ -120,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
             refreshList();
         }
 
+        if (id == R.id.action_addfeed) {
+            //Add a feed
+            Log.w("ADD_FEED", "I should add a feed to the URL list and reload the display!");
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

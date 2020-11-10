@@ -5,8 +5,8 @@
       tools:context=".MainActivity">
 
     <!-- "Mark Favorite", should appear as action button if possible -->
-    <item android:id="@+id/action_favorite"
-          android:title="Start Action"
+    <item android:id="@+id/action_refresh"
+          android:title="Refresh"
           android:icon="@android:drawable/ic_popup_sync"
           app:showAsAction="ifRoom"/>
 </menu>

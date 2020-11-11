@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
         urlList.add("https://www.questionablecontent.net/QCRSS.xml");
         urlList.add("https://www.dumbingofage.com/feed/");
         urlList.add("https://www.thirtythreeforty.net/posts/index.xml");
+        urlList.add("https://www.rssboard.org/files/sample-rss-092.xml");
+        urlList.add("https://www.rssboard.org/files/sample-rss-091.xml");
+        urlList.add("https://www.rssboard.org/files/sample-rss-2.xml");
 
         parserThread = new RSSFeedParser(urlList, objectList, adapter, getApplicationContext());
 

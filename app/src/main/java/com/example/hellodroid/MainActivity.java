@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -126,8 +127,14 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_addfeed) {
             //Add a feed
             Log.w("ADD_FEED", "I should add a feed to the URL list and reload the display!");
+            addFeedDialogue();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addFeedDialogue() {
+        DialogFragment dialog = new NewFeedDialog();
+        dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
     }
 }

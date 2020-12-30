@@ -3,17 +3,19 @@ package com.example.hellodroid;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.CycleInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class NewFeedDialog extends DialogFragment {
 
@@ -44,16 +46,28 @@ public class NewFeedDialog extends DialogFragment {
             @Override
             public void onShow(final DialogInterface dialog) {
                 Button positiveButton = ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE);
+
                 positiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         EditText entryBox = (EditText) getDialog().findViewById(R.id.new_feed_input);
+                        TextView warningText = (TextView) getDialog().findViewById(R.id.new_feed_warning);
                         String newFeed = entryBox.getText().toString();
 
                         if (Patterns.WEB_URL.matcher(newFeed).matches()) {
                             onDismiss(dialog);
                         } else {
                             valid_url = false;
+
+                            //Shake the dialog box and display a warning.
+                            ((AlertDialog) dialog).getWindow()
+                                                  .getDecorView()
+                                                  .animate()
+                                                  .translationX(16f)
+                                                  .setInterpolator(new CycleInterpolator(2.5f));
+
+                            warningText.setText("Please enter a valid URL");
+                            warningText.setTextColor(Color.rgb(255,0,0));
                         }
                     }
                 });

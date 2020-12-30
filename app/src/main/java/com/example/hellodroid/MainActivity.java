@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
     private void addFeedDialogue() {
         NewFeedDialog dialog = new NewFeedDialog();
         dialog.setReturnLocation(urlList);
+        dialog.setRssFeedParser(parserThread);
         dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
     }
 }

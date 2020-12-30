@@ -22,6 +22,7 @@ public class NewFeedDialog extends DialogFragment {
     private Boolean valid_url = false;
     private Boolean back_button = false;
     private List<String> returnLocation;
+    private RSSFeedParser rssParser;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class NewFeedDialog extends DialogFragment {
 
                         if (Patterns.WEB_URL.matcher(newFeed).matches()) {
                             returnLocation.add(newFeed);
+                            rssParser.parseSingleFeed(newFeed);
                             onDismiss(dialog);
                         } else {
                             valid_url = false;
@@ -80,5 +82,9 @@ public class NewFeedDialog extends DialogFragment {
 
     void setReturnLocation(List<String> returnLocation_) {
         returnLocation = returnLocation_;
+    }
+
+    public void setRssFeedParser(RSSFeedParser parser_) {
+        rssParser = parser_;
     }
 }

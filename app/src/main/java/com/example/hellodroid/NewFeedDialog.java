@@ -17,10 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
+import java.util.List;
+
 public class NewFeedDialog extends DialogFragment {
 
     private Boolean valid_url = false;
     private Boolean back_button = false;
+    private List<String> returnLocation;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class NewFeedDialog extends DialogFragment {
                         String newFeed = entryBox.getText().toString();
 
                         if (Patterns.WEB_URL.matcher(newFeed).matches()) {
+                            returnLocation.add(newFeed);
                             onDismiss(dialog);
                         } else {
                             valid_url = false;
@@ -74,5 +78,9 @@ public class NewFeedDialog extends DialogFragment {
             }
         });
         return dialog;
+    }
+
+    void setReturnLocation(List<String> returnLocation_) {
+        returnLocation = returnLocation_;
     }
 }

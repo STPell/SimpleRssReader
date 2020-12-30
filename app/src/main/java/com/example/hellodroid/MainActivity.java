@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     RSSFeedParser parserThread; // = new RSSFeedParser("https://sssscomic.com/ssss-feed.xml");
     List<RssChannelViewModel> objectList;
     RssChannelAdapter adapter;
+    List<String> urlList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new RssChannelAdapter(objectList, listener);
 
-        List<String> urlList = new ArrayList<String>();
+        urlList = new ArrayList<String>();
         urlList.add("https://sssscomic.com/ssss-feed.xml");
         urlList.add("https://www.questionablecontent.net/QCRSS.xml");
         urlList.add("https://www.dumbingofage.com/feed/");
@@ -134,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addFeedDialogue() {
-        DialogFragment dialog = new NewFeedDialog();
+        NewFeedDialog dialog = new NewFeedDialog();
+        dialog.setReturnLocation(urlList);
         dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
     }
 }

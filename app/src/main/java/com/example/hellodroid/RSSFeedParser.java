@@ -135,6 +135,31 @@ public class RSSFeedParser extends Thread {
         }
     }
 
+    public void parseSingleFeed(String url) {
+        try {
+            StringRequest newRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        parseFeed(response);
+                        addChannelToInfo();
+                        saveResponseToFile(response);
+                    } catch (Exception e) {
+                        Log.e("EXCEPTION", e.toString());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("EXCEPTION", error.toString());
+                }
+            });
+            RssHttpRequestQueue.getInstance().addToRequestQueue(newRequest);
+        } catch (Exception e) {
+            Log.e("EXCEPTION", e.toString());
+        }
+    }
+
     private void saveResponseToFile(String response) {
         String fileName;
         feedChannelsLock.lock();

@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private int counter = 0;
     public static final String CHANNEL_MESSAGE = "com.example.hellodroid.CHANNEL";
 
-    RSSFeedParser parserThread; // = new RSSFeedParser("https://sssscomic.com/ssss-feed.xml");
+    RSSFeedParser parserThread;
     List<RssChannelViewModel> objectList;
     RssChannelAdapter adapter;
     List<String> urlList;

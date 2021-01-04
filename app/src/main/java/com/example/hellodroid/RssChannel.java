@@ -145,4 +145,12 @@ public class RssChannel implements Serializable {
     public String getTitle() {
         return title;
     }
+
+    public void setUrl(String url) {
+        channel_url = url;
+    }
+
+    public String getUrl() {
+        return channel_url;
+    }
 }

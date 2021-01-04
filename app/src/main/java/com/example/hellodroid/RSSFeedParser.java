@@ -79,6 +79,9 @@ public class RSSFeedParser extends Thread {
                         StringBuilder stringBuilder = new StringBuilder();
                         BufferedReader reader = new BufferedReader(inputStreamReader);
 
+                        //First line of file is the URL
+                        String url = reader.readLine();
+
                         String line = reader.readLine();
                         while (line != null) {
                             stringBuilder.append(line).append('\n');
@@ -86,7 +89,7 @@ public class RSSFeedParser extends Thread {
                         }
 
                         String contents = stringBuilder.toString();
-                        parseFeed(contents);
+                        parseFeed(url, contents);
                         addChannelToInfo();
                     } catch (Exception e) {
                         // Error occurred when opening raw file for reading.
@@ -106,9 +109,9 @@ public class RSSFeedParser extends Thread {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            parseFeed(response);
+                            parseFeed(url, response);
                             addChannelToInfo();
-                            saveResponseToFile(response);
+                            saveResponseToFile(url, response);
 
                             //If we're the last thing to be parsed we should stop
                             //the refreshing icon.
@@ -141,9 +144,9 @@ public class RSSFeedParser extends Thread {
                 @Override
                 public void onResponse(String response) {
                     try {
-                        parseFeed(response);
+                        parseFeed(url, response);
                         addChannelToInfo();
-                        saveResponseToFile(response);
+                        saveResponseToFile(url, response);
                     } catch (Exception e) {
                         Log.e("EXCEPTION", e.toString());
                     }
@@ -160,7 +163,7 @@ public class RSSFeedParser extends Thread {
         }
     }
 
-    private void saveResponseToFile(String response) {
+    private void saveResponseToFile(String url, String response) {
         String fileName;
         feedChannelsLock.lock();
         fileName = "RSS-" + feedChannels.get(feedChannels.size() - 1).getTitle() + ".xml";
@@ -169,13 +172,14 @@ public class RSSFeedParser extends Thread {
         fileName = fileName.replaceAll("[:*?\"<>|&/ ]", "_");
 
         try (FileOutputStream fos = ctx.openFileOutput(fileName, Context.MODE_PRIVATE)) {
+            fos.write((url + "\n").getBytes());
             fos.write(response.getBytes());
         } catch (Exception e) {
             Log.e("EXCEPTION", e.toString());
         }
     }
 
-    public void parseFeed(String response) throws ParserConfigurationException, IOException, SAXException {
+    public void parseFeed(String url, String response) throws ParserConfigurationException, IOException, SAXException {
         StringReader reader = new StringReader(response);
         InputSource input = new InputSource(reader);
 
@@ -216,6 +220,8 @@ public class RSSFeedParser extends Thread {
                     }
                 }
             }
+
+            rssChannel.setUrl(url);
 
             if (rssChannel.isValid()) {
                 feedChannelsLock.lock();

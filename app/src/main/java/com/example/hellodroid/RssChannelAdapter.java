@@ -11,7 +11,8 @@ import java.util.List;
 
 public class RssChannelAdapter extends RecyclerView.Adapter {
     private List<RssChannelViewModel> models = new ArrayList<>();
-    private RecyclerChannelViewClickListener mListener;
+    private RecyclerChannelViewClickListener mClickListener;
+    private RecyclerChannelViewLongClickListener mLongClickListener;
 
     /**
      * Adapter constructor
@@ -19,12 +20,13 @@ public class RssChannelAdapter extends RecyclerView.Adapter {
      * @param viewModels
      *         A collection of viewmodels which will contain the data that will be used in each ViewHolder
      */
-    public RssChannelAdapter(final List<RssChannelViewModel> viewModels, RecyclerChannelViewClickListener listener) {
+    public RssChannelAdapter(final List<RssChannelViewModel> viewModels, RecyclerChannelViewClickListener clickListener, RecyclerChannelViewLongClickListener longClickListener) {
         if (viewModels != null) {
             this.models.addAll(viewModels);
         }
 
-        mListener = listener;
+        mClickListener = clickListener;
+        mLongClickListener = longClickListener;
     }
 
     /**
@@ -42,7 +44,7 @@ public class RssChannelAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        return new RssChannelViewHolder(view, mListener);
+        return new RssChannelViewHolder(view, mClickListener, mLongClickListener);
     }
 
     /**

@@ -5,8 +5,9 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RssChannelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private final RecyclerChannelViewClickListener mListener;
+public class RssChannelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    private final RecyclerChannelViewClickListener mClickListener;
+    private final RecyclerChannelViewLongClickListener mLongClickListener;
     private TextView simpleTextView;
     private RssChannelViewModel model;
 
@@ -17,12 +18,15 @@ public class RssChannelViewHolder extends RecyclerView.ViewHolder implements Vie
      * @param itemView
      *         The layout view group used to display the data
      */
-    public RssChannelViewHolder(final View itemView, RecyclerChannelViewClickListener listener) {
+    public RssChannelViewHolder(final View itemView, RecyclerChannelViewClickListener clickListener, RecyclerChannelViewLongClickListener longClickListener) {
         super(itemView);
         simpleTextView = (TextView) itemView.findViewById(R.id.simple_title);
 
-        mListener = listener;
+        mClickListener = clickListener;
         itemView.setOnClickListener(this);
+
+        mLongClickListener = longClickListener;
+        itemView.setOnLongClickListener(this);
     }
 
     /**
@@ -39,6 +43,12 @@ public class RssChannelViewHolder extends RecyclerView.ViewHolder implements Vie
 
     @Override
     public void onClick(View view) {
-        mListener.onClick(view, getAdapterPosition(), model);
+        mClickListener.onClick(view, getAdapterPosition(), model);
+    }
+
+    @Override
+    public boolean onLongClick(View view) {
+        mLongClickListener.onLongClick(view, getAdapterPosition(), model);
+        return true;
     }
 }

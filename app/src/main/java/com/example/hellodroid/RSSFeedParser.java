@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Predicate;
 
 import static com.example.hellodroid.RssDocumentContext.values;
 
@@ -225,6 +226,13 @@ public class RSSFeedParser extends Thread {
 
             if (rssChannel.isValid()) {
                 feedChannelsLock.lock();
+
+                //Remove any prior channels
+                Predicate<RssChannel> dupChanCheck = c -> c.getTitle().equals(rssChannel.getTitle()) &&
+                                                          c.getUrl().equals(rssChannel.getUrl());
+                feedChannels.removeIf(dupChanCheck);
+
+                //Add the newly parsed channel
                 feedChannels.add(rssChannel);
                 feedChannelsLock.unlock();
             }

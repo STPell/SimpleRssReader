@@ -281,5 +281,14 @@ public class RSSFeedParser extends Thread {
     public void setRefresher(SwipeRefreshLayout swipeRefreshLayout) {
         refresher = swipeRefreshLayout;
     }
+
+    public void removeFeed(int position, String url) {
+        feedChannelsLock.lock();
+        urlList.remove(urlList.indexOf(url));
+        displayList.remove(position);
+        feedChannels.remove(position);
+        displayAdapter.removeItem(position);
+        feedChannelsLock.unlock();
+    }
 }
 

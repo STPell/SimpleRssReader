@@ -78,6 +78,7 @@ public class RSSFeedParser extends Thread {
 
                         //First line of file is the URL
                         String url = reader.readLine();
+                        urlList.add(url);
 
                         String line = reader.readLine();
                         while (line != null) {

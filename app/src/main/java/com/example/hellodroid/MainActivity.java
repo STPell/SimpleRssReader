@@ -1,10 +1,11 @@
 package com.example.hellodroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.*;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +41,47 @@ public class MainActivity extends AppCompatActivity {
         RssHttpRequestQueue.getInstance(this.getApplicationContext());
 
         objectList = generateSimpleList();
-        RecyclerChannelViewClickListener listener = (view, position, model) -> {
+        RecyclerChannelViewClickListener clickListener = (view, position, model) -> {
             Intent intent = new Intent(MainActivity.this, ChannelFeed.class);
             intent.putExtra(CHANNEL_MESSAGE, model.getChannel());
             startActivity(intent);
         };
 
-        adapter = new RssChannelAdapter(objectList, listener);
+        Context context = this.getApplicationContext();
+
+        RecyclerChannelViewLongClickListener longClickListener = new RecyclerChannelViewLongClickListener() {
+            @Override
+            public void onLongClick(View view, int position, RssChannelViewModel adapter) {
+                PopupMenu popup = new PopupMenu(context, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.channel_context_menu, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Log.e("Context Menu Pressed", "Hello");
+                        switch (item.getItemId()) {
+                            case R.id.delete_channel:
+                                String fileName = "RSS-" + adapter.getChannel().getTitle() + ".xml";
+                                fileName = fileName.replaceAll("[:*?\"<>|&/ ]", "_");
+                                File dir = getFilesDir();
+                                File file = new File(dir, fileName);
+                                file.delete();
+
+                                parserThread.removeFeed(position, adapter.getChannel().getUrl());
+
+                                return true;
+
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                popup.show();
+            }
+        };
+
+        adapter = new RssChannelAdapter(objectList, clickListener, longClickListener);
 
         urlList = new ArrayList<String>();
         urlList.add("https://sssscomic.com/ssss-feed.xml");

@@ -1,6 +1,7 @@
 package com.example.hellodroid;
 
 import android.content.Context;
+import android.util.Base64;
 import android.util.Log;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.android.volley.Request;
@@ -19,6 +20,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -161,13 +164,39 @@ public class RSSFeedParser extends Thread {
         }
     }
 
+    private static String bytesToHexString(byte[] bytes) {
+        // http://stackoverflow.com/questions/332079
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(0xFF & bytes[i]);
+            if (hex.length() == 1) {
+                sb.append('0');
+            }
+            sb.append(hex);
+        }
+        return sb.toString();
+    }
+
     private void saveResponseToFile(String url, String response) {
-        String fileName;
         feedChannelsLock.lock();
-        fileName = "RSS-" + feedChannels.get(feedChannels.size() - 1).getTitle() + ".xml";
+        String title = feedChannels.get(feedChannels.size() - 1).getTitle();
         feedChannelsLock.unlock();
 
-        fileName = fileName.replaceAll("[:*?\"<>|&/ ]", "_");
+        title = title.replaceAll("[:*?\"<>|&/ ]", "_");
+
+        //Hash the URL to make sure that feeds with the same title are not
+        //given the same filename.
+        String hashedUrl;
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update(url.getBytes(StandardCharsets.UTF_8));
+            hashedUrl = bytesToHexString(digest.digest()).substring(0, 8);
+        } catch (NoSuchAlgorithmException e) {
+            byte[] data = url.getBytes(StandardCharsets.UTF_8);
+            hashedUrl = Base64.encodeToString(data, Base64.DEFAULT);
+        }
+
+        String fileName = "RSS-" + title + "-" + hashedUrl +".xml";
 
         try (FileOutputStream fos = ctx.openFileOutput(fileName, Context.MODE_PRIVATE)) {
             fos.write((url + "\n").getBytes());

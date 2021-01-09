@@ -28,7 +28,6 @@ public class RssReadItemSet {
             String line = reader.readLine();
             while (line != null) {
                 set.add(line);
-                Log.d("RssReadItemSet", line);
                 line = reader.readLine();
             }
         } catch (Exception e) {

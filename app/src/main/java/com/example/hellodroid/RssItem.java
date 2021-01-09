@@ -4,6 +4,9 @@ import android.util.Log;
 import org.w3c.dom.Element;
 
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
@@ -137,4 +140,35 @@ public class RssItem implements Serializable {
 
     public String getGuid() { return guid; }
 
+    public String getUniqueId() {
+        //Search for item in the read list
+        MessageDigest digest;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            try {
+                digest = MessageDigest.getInstance("SHA-1");
+            } catch (NoSuchAlgorithmException f) {
+                Log.e("RssFeedParser", "Cannot get an appropriate hash function to check for read status. Giving up");
+                return "";
+            }
+        }
+        String uniqueID = channelUrl + guid;
+        digest.update(uniqueID.getBytes(StandardCharsets.UTF_8));
+
+        return bytesToHexString(digest.digest());
+    }
+
+    private static String bytesToHexString(byte[] bytes) {
+        // http://stackoverflow.com/questions/332079
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < bytes.length; i++) {
+            String hex = Integer.toHexString(0xFF & bytes[i]);
+            if (hex.length() == 1) {
+                sb.append('0');
+            }
+            sb.append(hex);
+        }
+        return sb.toString();
+    }
 }

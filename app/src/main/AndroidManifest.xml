@@ -15,7 +15,7 @@
         <activity android:name=".ItemViewer">
         </activity>
         <activity
-                android:name=".ChannelFeed"
+                android:name=".ChannelFeedActivity"
                 android:label="@string/title_activity_channel_feed"
                 android:parentActivityName=".MainActivity">
             <meta-data

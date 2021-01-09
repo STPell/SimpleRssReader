@@ -23,7 +23,7 @@ public class ItemViewer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_viewer);
 
-        item = (RssItem) getIntent().getSerializableExtra(ChannelFeed.ITEM_MESSAGE);
+        item = (RssItem) getIntent().getSerializableExtra(ChannelFeedActivity.ITEM_MESSAGE);
 
         createTextView();
 

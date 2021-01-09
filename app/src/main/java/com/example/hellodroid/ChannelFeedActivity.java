@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChannelFeed extends AppCompatActivity {
+public class ChannelFeedActivity extends AppCompatActivity {
     public static final String ITEM_MESSAGE = "com.example.hellodroid.ITEM";
 
     private RssChannel channel;
@@ -27,7 +27,7 @@ public class ChannelFeed extends AppCompatActivity {
         channel = (RssChannel) getIntent().getSerializableExtra(MainActivity.CHANNEL_MESSAGE);
 
         RecyclerItemViewClickListener listener = (view, position, model) -> {
-            Intent intent = new Intent(ChannelFeed.this, ItemViewer.class);
+            Intent intent = new Intent(ChannelFeedActivity.this, ItemViewer.class);
             intent.putExtra(ITEM_MESSAGE, model.getItem());
             startActivity(intent);
         };

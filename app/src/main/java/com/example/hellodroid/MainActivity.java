@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         objectList = generateSimpleList();
         RecyclerChannelViewClickListener clickListener = (view, position, model) -> {
-            Intent intent = new Intent(MainActivity.this, ChannelFeed.class);
+            Intent intent = new Intent(MainActivity.this, ChannelFeedActivity.class);
             intent.putExtra(CHANNEL_MESSAGE, model.getChannel());
             startActivity(intent);
         };

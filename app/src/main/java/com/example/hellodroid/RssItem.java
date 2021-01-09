@@ -131,4 +131,7 @@ public class RssItem implements Serializable {
     public String getUrl() {
         return link;
     }
+
+    public String getGuid() { return guid; }
+
 }

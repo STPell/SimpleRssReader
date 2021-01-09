@@ -19,13 +19,16 @@ public class RssItem implements Serializable {
     private long pubDateUnix;
     private String link; //Web page associated with the feed item
     private String title;
+    private String channelUrl;
 
     private boolean opened = false;
     private boolean flagged = false;
 
     private final static DateTimeFormatter date_format = DateTimeFormatter.RFC_1123_DATE_TIME;
 
-    RssItem() {}
+    RssItem(String channelUrl) {
+        channelUrl = channelUrl;
+    }
 
     public Boolean isValid() {
         Log.d("ItemResult", this.asString());

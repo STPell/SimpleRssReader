@@ -28,10 +28,12 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 
+import static com.example.hellodroid.RssDocumentContext.GUID;
 import static com.example.hellodroid.RssDocumentContext.values;
 
 public class RSSFeedParser extends Thread {
     private List<String> urlList;
+    private RssReadItemSet previouslyRead;
 
     private String[] rssLanguage_ = {"none", "channel", "title", "item", "link", "guid", "description", "language", "copyright",
                                     "managingEditor", "webMaster", "pubDate", "lastBuildDate", "category", "generator",
@@ -61,6 +63,7 @@ public class RSSFeedParser extends Thread {
 
     @Override
     public void run() {
+        previouslyRead = RssReadItemSet.getInstance(ctx);
         if (local) {
             parseFromLocalResources();
         } else {
@@ -280,11 +283,22 @@ public class RSSFeedParser extends Thread {
                     RssDocumentContext field = values()[typeIndex];
 
                     item.addItemField(field, e);
+
+                    if (field == GUID) {
+                        //Use the GUID to check whether item has been read
+                        if (isItemRead(item)) {
+                            item.markAsRead();
+                        }
+                    }
                 }
             }
         }
 
         return item;
+    }
+
+    private boolean isItemRead(RssItem item) {
+        return previouslyRead.contains(item.getUniqueId());
     }
 
     private RssChannelImage processChannelImage(NodeList child) {

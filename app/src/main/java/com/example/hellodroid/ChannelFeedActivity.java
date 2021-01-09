@@ -19,18 +19,22 @@ public class ChannelFeedActivity extends AppCompatActivity {
     private List<RssItemViewModel> objectList = new ArrayList<RssItemViewModel>();
     private RssItemAdapter adapter;
 
+    private RssReadItemSet previouslyRead;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_feed);
 
         channel = (RssChannel) getIntent().getSerializableExtra(MainActivity.CHANNEL_MESSAGE);
+        previouslyRead = RssReadItemSet.getInstance(this.getApplicationContext());
 
         RecyclerItemViewClickListener listener = (view, position, model) -> {
             Intent intent = new Intent(ChannelFeedActivity.this, ItemViewer.class);
             if (!model.getItem().isRead()) {
                 Log.e("ITEM", "Was previously unread, now is read");
                 model.getItem().markAsRead();
+                previouslyRead.add(model.getItem().getUniqueId());
             } else {
                 Log.e("ITEM", "has been read before");
             }

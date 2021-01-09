@@ -28,6 +28,13 @@ public class ChannelFeedActivity extends AppCompatActivity {
 
         RecyclerItemViewClickListener listener = (view, position, model) -> {
             Intent intent = new Intent(ChannelFeedActivity.this, ItemViewer.class);
+            if (!model.getItem().isRead()) {
+                Log.e("ITEM", "Was previously unread, now is read");
+                model.getItem().markAsRead();
+            } else {
+                Log.e("ITEM", "has been read before");
+            }
+
             intent.putExtra(ITEM_MESSAGE, model.getItem());
             startActivity(intent);
         };

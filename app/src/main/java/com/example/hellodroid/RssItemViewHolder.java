@@ -35,15 +35,21 @@ public class RssItemViewHolder extends RecyclerView.ViewHolder implements View.O
      *         The viewmodel that contains the data
      */
     public void bindData(final RssItemViewModel viewModel) {
-        simpleTitleView.setText(viewModel.getTitleText());
-        simpleTitleView.setTextColor(Color.rgb(0,0,0));
-        simpleDescriptionView.setText(Html.fromHtml(viewModel.getShortDescription(), Html.FROM_HTML_MODE_COMPACT, null, null));
-        //simpleDescriptionView.setText(viewModel.getShortDescription());
         model = viewModel;
+
+        simpleTitleView.setText(model.getTitleText());
+        if (model.getItem().isRead()) {
+            simpleTitleView.setTextColor(Color.rgb(0, 0, 0));
+        } else {
+            simpleTitleView.setTextColor(Color.rgb(128,0,128));
+        }
+        simpleDescriptionView.setText(Html.fromHtml(model.getShortDescription(), Html.FROM_HTML_MODE_COMPACT, null, null));
+        //simpleDescriptionView.setText(viewModel.getShortDescription());
     }
 
     @Override
     public void onClick(View view) {
         mListener.onClick(view, getAdapterPosition(), model);
+        simpleTitleView.setTextColor(Color.rgb(0, 0, 0)); //Set colour of title to black on reading
     }
 }

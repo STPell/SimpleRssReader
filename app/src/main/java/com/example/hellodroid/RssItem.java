@@ -91,19 +91,19 @@ public class RssItem implements Serializable {
         }
     }
 
-    private void markAsRead() {
+    public void markAsRead() {
         opened = true;
     }
 
-    private void markFlagged(boolean flag) {
+    public void markFlagged(boolean flag) {
         flagged = flag;
     }
 
-    private boolean viewFlag() {
+    public boolean viewFlag() {
         return flagged;
     }
 
-    private boolean isRead() {
+    public boolean isRead() {
         return opened;
     }
 

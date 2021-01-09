@@ -234,7 +234,7 @@ public class RSSFeedParser extends Thread {
 
                         switch (field) {
                             case ITEM:
-                                rssChannel.addItem(processItemNode(child.getChildNodes()));
+                                rssChannel.addItem(processItemNode(rssChannel, child.getChildNodes()));
                                 break;
 
                             case IMAGE:
@@ -266,8 +266,8 @@ public class RSSFeedParser extends Thread {
 
     }
 
-    private RssItem processItemNode(NodeList item_node) {
-        RssItem item = new RssItem();
+    private RssItem processItemNode(RssChannel channel, NodeList item_node) {
+        RssItem item = new RssItem(channel.getUrl());
 
         for (int i = 0; i < item_node.getLength(); i++) {
             Node child = item_node.item(i);
